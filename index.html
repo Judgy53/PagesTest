@@ -1,1 +1,150 @@
-<h1>Test Page</h1>
+<!doctype html>
+<html lang="en">
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+	<style>
+		body, html{ width:100%; height:100%; padding: 0; margin: 0;}
+	
+		.main-container {
+			height: 100%;
+		}
+	
+		.search-container input[type=text] {
+			width: 100%;
+			padding: 6px;
+			margin-top: 8px;
+			margin-bottom: 8px;
+			font-size: 17px;
+		}
+		
+		.db-list {
+			min-height: 336px;
+			overflow: auto;
+			white-space: nowrap;
+			border: 1px solid grey;
+		}
+		
+		.db-list .entry {
+			width: 250px;
+			border-right: 1px dashed grey;
+			font-weight: bold;
+			font-size:1.5em;
+		}
+		
+		.db-list .entry>* {
+			width: 100%;
+			max-height:250px;
+			margin-bottom: 5px;
+		}
+		
+		.db-list .entry.quant-plenty {
+			color: green;
+		}
+		
+		.db-list .entry.quant-few {
+			color: orange;
+		}
+		
+		.db-list .entry.quant-none {
+			color: red;
+		}
+		
+		/*Shouldn't be needed, but extra safety */
+		template {
+			display: none !important;
+		}
+		
+	</style>
+</head>
+<body>
+	<div class="container-fluid main-container">
+		<div class="search-container">
+			<input placeholder="Chercher dans le sac..." type="text" id="search-bar-input">
+		</div>
+		<ul class="list-inline db-list"></ul>
+		<template id="entry-template">
+			<li class="list-inline-item entry">
+				<div class="entry-name text-center"></div>
+				<img class="entry-img text-center"></img>
+				<div class="entry-quantity text-center"></div>
+			</li>
+		</template>
+		<script>
+			function BagItem(type, quantity, imgLink) {
+				this.type = type;
+				this.quantity = quantity;
+				this.imgLink = imgLink;
+			}
+		
+			var bagContent = [
+				new BagItem("Whisky",	"1.0L",	"https://i2.cdscdn.com/pdt2/8/4/3/1/700x700/58843/rw/jack-daniel-s-ndeg7-70cl.jpg"),
+				new BagItem("Vodka",	"0.5L",	"https://www.philpizz.fr/185-thickbox_default/poliakov-100-cl.jpg"),
+				new BagItem("Rhum",		"0.0L",	"https://i2.cdscdn.com/pdt2/3/8/9/1/700x700/ba1389/rw/rhum-blanc-old-nick-40-100cl.jpg"),
+				new BagItem("Manzana",	"42.0L","http://nice.aperojoke.com/21-large_default/manzana-70-cl.jpg"),
+				new BagItem("Tequila",	"0.5L",	"http://www.punch-et-cocktail.com/media/catalog/product/cache/7/image/400x/9df78eab33525d08d6e5fb8d27136e95/7/9/796-tequila-san-jose-silver_1.jpg"),
+			];
+			
+			bagContent.sort(function(a,b) {
+				var quantA = parseFloat(a.quantity);
+				var quantB = parseFloat(b.quantity);
+				
+				return quantB - quantA;
+			});
+		
+			var temp, entry, clone, bagItem, quantFloat, i;
+			
+			temp = document.getElementById("entry-template");
+			
+			entry = temp.content.querySelector("li");
+			
+			for (i = 0; i < bagContent.length; i++) {
+				bagItem = bagContent[i];
+				
+				clone = document.importNode(entry, true);
+				
+				clone.querySelector(".entry-name").textContent = bagItem.type;
+				clone.querySelector(".entry-quantity").textContent = bagItem.quantity;
+				clone.querySelector(".entry-img").src = bagItem.imgLink;
+				
+				quantFloat = parseFloat(bagItem.quantity)
+				
+				if(quantFloat >= 1.0)
+					clone.className += " quant-plenty";
+				else if(quantFloat > 0.0)
+					clone.className += " quant-few";
+				else
+					clone.className += " quant-none";
+				
+				document.querySelector(".db-list").appendChild(clone);
+			 }
+			
+		</script>
+	  </div>
+	</div>
+	<script>
+		var searchTimeout = null;
+		
+		document.getElementById("search-bar-input").oninput = function() {
+			clearTimeout(searchTimeout);
+			
+			searchTimeout = setTimeout(function() {
+				var searchValue = document.getElementById("search-bar-input").value.trim().toLowerCase();
+				
+				var entryArray, entry, j;
+				
+				entryArray = document.querySelectorAll(".db-list .entry");
+				
+				for (j = 0; j < entryArray.length; j++) {
+					entry = entryArray[j];
+					
+					if(searchValue.length == 0 || entry.querySelector(".entry-name").textContent.toLowerCase().indexOf(searchValue) != -1)
+						entry.style.display = "inline-block";
+					else
+						entry.style.display = "none";
+				}
+			}, 250);
+		}
+	</script>
+</body>
