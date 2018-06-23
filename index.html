@@ -20,14 +20,14 @@
 		}
 		
 		.db-list {
-			min-height: 336px;
+			min-height:287px;
 			overflow: auto;
 			white-space: nowrap;
 			border: 1px solid grey;
 		}
 		
 		.db-list .entry {
-			width: 250px;
+			width: 200px;
 			border-right: 1px dashed grey;
 			font-weight: bold;
 			font-size:1.5em;
@@ -35,7 +35,6 @@
 		
 		.db-list .entry>* {
 			width: 100%;
-			max-height:250px;
 			margin-bottom: 5px;
 		}
 		
@@ -79,11 +78,11 @@
 			}
 		
 			var bagContent = [
-				new BagItem("Whisky",	"1.0L",	"https://i2.cdscdn.com/pdt2/8/4/3/1/700x700/58843/rw/jack-daniel-s-ndeg7-70cl.jpg"),
-				new BagItem("Vodka",	"0.5L",	"https://www.philpizz.fr/185-thickbox_default/poliakov-100-cl.jpg"),
-				new BagItem("Rhum",		"0.0L",	"https://i2.cdscdn.com/pdt2/3/8/9/1/700x700/ba1389/rw/rhum-blanc-old-nick-40-100cl.jpg"),
-				new BagItem("Manzana",	"42.0L","http://nice.aperojoke.com/21-large_default/manzana-70-cl.jpg"),
-				new BagItem("Tequila",	"0.5L",	"http://www.punch-et-cocktail.com/media/catalog/product/cache/7/image/400x/9df78eab33525d08d6e5fb8d27136e95/7/9/796-tequila-san-jose-silver_1.jpg"),
+				new BagItem("Whisky",	"1.0L",	"images/whisky.jpg"),
+				new BagItem("Vodka",	"0.5L",	"images/vodka.jpg"),
+				new BagItem("Rhum",		"0.0L",	"images/rhum.jpg"),
+				new BagItem("Manzana",	"1.5L",	"images/manzana.jpg"),
+				new BagItem("Tequila",	"0.5L",	"images/tequila.jpg"),
 			];
 			
 			bagContent.sort(function(a,b) {
@@ -121,7 +120,6 @@
 			 }
 			
 		</script>
-	  </div>
 	</div>
 	<script>
 		var searchTimeout = null;
